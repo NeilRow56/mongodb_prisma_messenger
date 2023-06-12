@@ -1,4 +1,5 @@
 import Image from 'next/image'
+import AuthForm from './components/AuthForm'
 
 export default function IndexPage() {
   return (
@@ -16,6 +17,10 @@ export default function IndexPage() {
           Sign in to your account
         </h2>
       </div>
+
+      {/* Auth form */}
+
+      <AuthForm />
     </div>
   )
 }
