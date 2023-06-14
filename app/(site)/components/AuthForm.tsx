@@ -32,9 +32,9 @@ const AuthForm = () => {
     formState: { errors }
   } = useForm<FieldValues>({
     defaultValues: {
-      name: ' ',
-      email: ' ',
-      password: ' '
+      name: '',
+      email: '',
+      password: ''
     }
   })
 
@@ -58,7 +58,16 @@ const AuthForm = () => {
 
   return (
     <div className='mt-8 sm:mx-auto sm:w-full sm:max-w-md'>
-      <div className='bg-white px-4 py-8 shadow sm:rounded-lg sm:px-10'>
+      <div
+        className='
+        bg-white
+          px-4
+          py-8
+          shadow
+          sm:rounded-lg
+          sm:px-10
+        '
+      >
         <form className='space-y-6' onSubmit={handleSubmit(onSubmit)}>
           {variant === 'REGISTER' && (
             <Input
@@ -88,13 +97,13 @@ const AuthForm = () => {
             label='Password'
             type='password'
           />
-
           <div>
             <Button disabled={isLoading} fullWidth type='submit'>
               {variant === 'LOGIN' ? 'Sign in' : 'Register'}
             </Button>
           </div>
         </form>
+
         <div className='mt-6'>
           <div className='relative'>
             <div
