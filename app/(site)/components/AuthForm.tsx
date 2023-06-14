@@ -1,9 +1,11 @@
 'use client'
 
 import Button from '@/app/components/Button'
+import { BsGithub, BsGoogle } from 'react-icons/bs'
 import Input from '@/app/components/inputs/Input'
 import { useCallback, useState } from 'react'
 import { FieldValues, SubmitHandler, useForm } from 'react-hook-form'
+import AuthSocialButton from './AuthSocialButton'
 
 type Variant = 'LOGIN' | 'REGISTER'
 
@@ -86,12 +88,63 @@ const AuthForm = () => {
             label='Password'
             type='password'
           />
+
           <div>
             <Button disabled={isLoading} fullWidth type='submit'>
               {variant === 'LOGIN' ? 'Sign in' : 'Register'}
             </Button>
           </div>
         </form>
+        <div className='mt-6'>
+          <div className='relative'>
+            <div
+              className='
+                absolute 
+                inset-0 
+                flex 
+                items-center
+              '
+            >
+              <div className='w-full border-t border-gray-300' />
+            </div>
+            <div className='relative flex justify-center text-sm'>
+              <span className='bg-white px-2 text-gray-500'>
+                Or continue with
+              </span>
+            </div>
+          </div>
+
+          <div className='mt-6 flex gap-2'>
+            <AuthSocialButton
+              icon={BsGithub}
+              onClick={() => socialAction('github')}
+            />
+            <AuthSocialButton
+              icon={BsGoogle}
+              onClick={() => socialAction('google')}
+            />
+          </div>
+        </div>
+        <div
+          className='
+            mt-6 
+            flex 
+            justify-center 
+            gap-2 
+            px-2 
+            text-sm 
+            text-gray-500
+          '
+        >
+          <div>
+            {variant === 'LOGIN'
+              ? 'New to Messenger?'
+              : 'Already have an account?'}
+          </div>
+          <div onClick={toggleVariant} className='cursor-pointer underline'>
+            {variant === 'LOGIN' ? 'Create an account' : 'Login'}
+          </div>
+        </div>
       </div>
     </div>
   )
