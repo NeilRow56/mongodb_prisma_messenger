@@ -1,22 +1,30 @@
 'use client'
 
-import Button from '@/app/components/Button'
+import axios from 'axios'
+import { signIn, useSession } from 'next-auth/react'
+import { useCallback, useEffect, useState } from 'react'
 import { BsGithub, BsGoogle } from 'react-icons/bs'
-import Input from '@/app/components/inputs/Input'
-import { useCallback, useState } from 'react'
 import { FieldValues, SubmitHandler, useForm } from 'react-hook-form'
+import { useRouter } from 'next/navigation'
+
+import Input from '@/app/components/inputs/Input'
 import AuthSocialButton from './AuthSocialButton'
+import Button from '@/app/components/Button'
+import { toast } from 'react-toastify'
 
 type Variant = 'LOGIN' | 'REGISTER'
 
-{
-  /* clsx - A tiny (228B) utility for constructing className strings conditionally.
-Also serves as a faster & smaller drop-in replacement for the classnames module. */
-}
-
 const AuthForm = () => {
+  const session = useSession()
+  const router = useRouter()
   const [variant, setVariant] = useState<Variant>('LOGIN')
   const [isLoading, setIsLoading] = useState(false)
+
+  useEffect(() => {
+    if (session?.status === 'authenticated') {
+      router.push('/users')
+    }
+  }, [session?.status, router])
 
   const toggleVariant = useCallback(() => {
     if (variant === 'LOGIN') {
@@ -42,18 +50,90 @@ const AuthForm = () => {
     setIsLoading(true)
 
     if (variant === 'REGISTER') {
-      //Axios Register
+      axios
+        .post('/api/register', data)
+        .then(() =>
+          signIn('credentials', {
+            ...data,
+            redirect: false
+          })
+        )
+        .then(callback => {
+          if (callback?.error) {
+            toast.error('🦄 Wow so easy!', {
+              position: 'top-center',
+              autoClose: 5000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+              theme: 'light'
+            })
+          }
+
+          if (callback?.ok) {
+            router.push('/conversations')
+          }
+        })
+        .catch(() =>
+          toast.error('🦄 Wow so easy!', {
+            position: 'top-center',
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: 'light'
+          })
+        )
+        .finally(() => setIsLoading(false))
     }
 
     if (variant === 'LOGIN') {
-      // NextAuth SignIn
+      signIn('credentials', {
+        ...data,
+        redirect: false
+      })
+        .then(callback => {
+          if (callback?.error) {
+            toast.error('Invalid credentials!')
+          }
+
+          if (callback?.ok && !callback?.error) {
+            toast.success('Logged In', {
+              position: 'top-center',
+              autoClose: 5000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+              theme: 'light'
+            })
+            router.push('/users')
+          }
+        })
+        .finally(() => setIsLoading(false))
     }
   }
 
   const socialAction = (action: string) => {
     setIsLoading(true)
 
-    // NextAuth Social Sign In
+    signIn(action, { redirect: false })
+      .then(callback => {
+        if (callback?.error) {
+          toast.error('Invalid credentials!')
+        }
+
+        if (callback?.ok) {
+          //router.push('/conversations')
+          toast.success('logged In')
+        }
+      })
+      .finally(() => setIsLoading(false))
   }
 
   return (

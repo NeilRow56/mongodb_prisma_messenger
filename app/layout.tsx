@@ -1,21 +1,26 @@
-import "./globals.css";
-import { Inter } from "next/font/google";
-
-const inter = Inter({ subsets: ["latin"] });
+import './globals.css'
+import AuthContext from './context/AuthContext'
+import ToastProvider from './context/ToastProvider'
 
 export const metadata = {
-  title: "Messenger App",
-  description: "Messenger clone",
-};
+  title: 'Messenger',
+  description: 'Messenger Clone'
+}
 
 export default function RootLayout({
-  children,
+  children
 }: {
-  children: React.ReactNode;
+  children: React.ReactNode
 }) {
   return (
-    <html lang="en">
-      <body className={inter.className}>{children}</body>
+    <html lang='en'>
+      <body>
+        <AuthContext>
+          <ToastProvider />
+
+          {children}
+        </AuthContext>
+      </body>
     </html>
-  );
+  )
 }
