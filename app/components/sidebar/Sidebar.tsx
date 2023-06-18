@@ -1,5 +1,5 @@
 import DesktopSidebar from './DesktopSidebar'
-import MobileFooter from './obileFooter'
+import MobileFooter from './MobileFooter'
 
 async function Sidebar({ children }: { children: React.ReactNode }) {
   return (
