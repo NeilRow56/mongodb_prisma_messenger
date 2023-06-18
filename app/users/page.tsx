@@ -1,23 +1,10 @@
-import Container from './components/Container'
-import UserMenu from './components/UserMenu'
+import EmptyState from '../components/EmptyState'
 
 const People = () => {
   return (
-    <Container>
-      <div
-        className='
-            mt-8 
-            flex 
-            flex-row 
-            items-center
-            justify-center
-            gap-3
-            md:gap-0
-          '
-      >
-        <UserMenu />
-      </div>
-    </Container>
+    <div className='hidden h-full lg:block lg:pl-80'>
+      <EmptyState />
+    </div>
   )
 }
 
