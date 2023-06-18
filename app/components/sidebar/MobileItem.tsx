@@ -25,6 +25,7 @@ const MobileItem: React.FC<MobileItemProps> = ({
     <Link
       onClick={handleClick}
       href={href}
+      //When you need to style an element based on the state of some parent element, mark the parent with the group class
       className={clsx(
         `
         group 
@@ -40,7 +41,7 @@ const MobileItem: React.FC<MobileItemProps> = ({
         hover:bg-gray-100 
         hover:text-black
       `,
-        active && 'bg-gray-100 text-black'
+        active && 'bg-gray-100 text-blue-900'
       )}
     >
       <Icon className='h-6 w-6' />
